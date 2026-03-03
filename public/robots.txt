@@ -1,0 +1,12 @@
+# StoneTrade - Robots.txt
+# https://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /auth/
+Disallow: /checkout/
+
+# Sitemap
+Sitemap: https://stonetrade.in/sitemap.xml
