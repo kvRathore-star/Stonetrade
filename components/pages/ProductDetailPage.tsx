@@ -2,7 +2,7 @@
 
 import React, { useState, useContext } from 'react';
 import { Product } from '@/types';
-import { StarIcon, VerifiedIcon, HeartIcon, SparklesIcon, ChatBubbleIcon, ShieldIcon, XIcon, UserIcon, SendIcon, TruckIcon } from '@/components/IconComponents';
+import { StarIcon, VerifiedIcon, HeartIcon, SparklesIcon, ChatBubbleIcon, ShieldIcon, XIcon, UserIcon, SendIcon, TruckIcon, CheckIcon } from '@/components/IconComponents';
 import type { Page } from '@/lib/navigation';
 import { useFavorites } from '@/hooks/useFavorites';
 import { LanguageContext } from '@/lib/language';
@@ -262,6 +262,33 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, navigate
             >
               📝 Need Bulk? Get Multiple Quotes
             </button>
+          </div>
+
+          {/* Trust Value Props */}
+          <div className="bg-stone-light/40 border border-emerald-500/20 rounded-2xl p-4 my-2">
+            <h5 className="text-[10px] font-black text-stone-secondary uppercase tracking-widest mb-3 pl-1">StoneTrade Assurances</h5>
+            <div className="grid grid-cols-2 gap-y-3 gap-x-2">
+              <div className="flex items-center gap-2 text-xs font-bold text-stone-primary">
+                <CheckIcon className="h-4 w-4 text-emerald-500" />
+                GST Invoiced
+              </div>
+              <div className="flex items-center gap-2 text-xs font-bold text-stone-primary">
+                <ShieldIcon className="h-4 w-4 text-emerald-500" />
+                Quality Guarantee
+              </div>
+              <div className="flex items-center gap-2 text-xs font-bold text-stone-primary">
+                <TruckIcon className="h-4 w-4 text-emerald-500" />
+                Pan India Delivery
+              </div>
+              <div className="flex items-center gap-2 text-xs font-bold text-stone-primary">
+                <CheckIcon className="h-4 w-4 text-emerald-500" />
+                Easy Returns
+              </div>
+              <div className="flex items-center gap-2 text-xs font-bold text-stone-primary col-span-2 mt-1 bg-white p-2 text-center rounded-lg border border-stone-accent/10 shadow-sm w-full mx-auto justify-center">
+                <ChatBubbleIcon className="h-4 w-4 text-emerald-500" />
+                Dedicated WhatsApp Support
+              </div>
+            </div>
           </div>
 
           {/* Seller Info */}

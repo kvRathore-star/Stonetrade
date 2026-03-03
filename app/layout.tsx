@@ -4,20 +4,29 @@ import './globals.css';
 import Providers from './providers';
 
 export const metadata: Metadata = {
-  title: 'StoneTrade – Buy Marble, Granite & Stone Direct from Indian Quarries',
-  description: 'India\'s most trusted stone marketplace. Buy marble, granite, sandstone & natural stone directly from 500+ verified manufacturers across 28 states. No middlemen, GST invoiced, pan India delivery.',
+  title: 'StoneTrade | India\'s Premium B2B Stone Marketplace',
+  description: 'India\'s most trusted stone marketplace. Buy marble, granite, sandstone & natural stone with Royal craftsmanship. 28 States Covered, GST Invoiced, and Quality Guaranteed.',
   keywords: ['marble', 'granite', 'natural stone', 'buy stone online', 'stone marketplace India', 'quarry direct', 'sandstone', 'Italian marble', 'Rajasthan marble', 'Makrana marble', 'stone dealer India'],
   openGraph: {
-    title: 'StoneTrade – Buy Stone Direct from Indian Quarries',
-    description: 'India\'s trusted marketplace for marble, granite & natural stone. 500+ verified sellers, pan India delivery, zero brokerage.',
-    type: 'website',
-    locale: 'en_IN',
+    title: 'StoneTrade | Premium Natural Stone',
+    description: 'Buy premium marble, granite & stone from verified quarries. 28 States Covered. GST Invoiced.',
+    url: 'https://stonetrade.in',
     siteName: 'StoneTrade',
+    images: [
+      {
+        url: 'https://stonetrade.in/og.png',
+        width: 1200,
+        height: 630,
+        alt: 'StoneTrade Premium Indian Marble & Granite',
+      }
+    ],
+    locale: 'en_IN',
+    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'StoneTrade – India\'s Stone Marketplace',
-    description: 'Buy marble, granite & stone direct from quarries. No middlemen.',
+    title: 'StoneTrade | Original Indian Stone',
+    description: 'Buy premium marble, granite & stone. 28 States Covered. GST Invoiced.',
   },
   manifest: '/manifest.json',
   appleWebApp: {

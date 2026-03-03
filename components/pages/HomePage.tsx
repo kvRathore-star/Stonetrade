@@ -41,7 +41,7 @@ const HomePage: React.FC<HomePageProps> = ({ navigateTo }) => {
                     </h1>
 
                     <p className="text-lg lg:text-xl text-stone-light/70 mb-10 max-w-2xl mx-auto leading-relaxed font-light animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                        India&apos;s trusted marketplace for marble, granite &amp; sandstone. Order samples, compare prices, and buy from verified manufacturers — no middlemen.
+                        India&apos;s trusted marketplace for heritage marble, granite &amp; sandstone. Authentic Royal finishes, 28 States Covered, and completely GST Invoiced.
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
