@@ -9,20 +9,95 @@ interface PricingPageProps {
 }
 
 const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
-    const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('annual');
+    const [activeTab, setActiveTab] = useState<'buyer' | 'seller'>('buyer');
+    const [billingPeriod, setBillingPeriod] = useState<'annual' | 'monthly'>('annual');
 
     const getPrice = (monthly: number) => {
         if (billingPeriod === 'annual') return Math.round(monthly * 0.8);
         return monthly;
     };
 
-    const plans = [
+    type PlanFeature = { text: string; included: boolean; suffix?: string; isKey?: boolean; };
+    type Plan = {
+        name: string;
+        tagline: string;
+        price: number;
+        priceLabel: string;
+        badge?: string;
+        highlight: boolean;
+        features: PlanFeature[];
+        cta: string;
+        commission?: string;
+    };
+
+    const buyerPlans: Plan[] = [
+        {
+            name: 'Lite',
+            tagline: 'Perfect for exploring the marketplace',
+            price: 0,
+            priceLabel: 'Free Forever',
+            badge: '',
+            highlight: false,
+            features: [
+                { text: 'Browse & Compare 10,000+ Listings', included: true },
+                { text: 'Order physical samples', included: true, suffix: '8% fee' },
+                { text: 'Post bulk RFQs', included: true },
+                { text: 'View Verified Sellers', included: true },
+                { text: 'Direct Seller Contact', included: false },
+                { text: 'WhatsApp direct access', included: false },
+                { text: 'Warehouse Audit Reports', included: false },
+                { text: 'AI Price Alerts', included: false },
+            ],
+            cta: 'Start Free'
+        },
+        {
+            name: 'Pro',
+            tagline: 'For professionals ordering regularly',
+            price: getPrice(499),
+            priceLabel: `₹${getPrice(499).toLocaleString('en-IN')}/mo`,
+            badge: 'Most Popular',
+            highlight: true,
+            features: [
+                { text: 'Browse & Compare 10,000+ Listings', included: true },
+                { text: 'Order physical samples', included: true, suffix: '5% fee' },
+                { text: 'Post bulk RFQs', included: true },
+                { text: 'View Verified Sellers', included: true },
+                { text: 'Direct Seller Contact', included: true, isKey: true },
+                { text: 'WhatsApp direct access', included: true, isKey: true },
+                { text: '5 Warehouse Audit Reports/mo', included: true },
+                { text: 'AI Price Alerts', included: true },
+            ],
+            cta: 'Unlock Pro Contacts'
+        },
+        {
+            name: 'Elite',
+            tagline: 'For high-volume buyers & firms',
+            price: getPrice(999),
+            priceLabel: `₹${getPrice(999).toLocaleString('en-IN')}/mo`,
+            badge: '',
+            highlight: false,
+            features: [
+                { text: 'Browse & Compare 10,000+ Listings', included: true },
+                { text: 'Order physical samples', included: true, suffix: '5% fee' },
+                { text: 'Post bulk RFQs', included: true },
+                { text: 'View Verified Sellers', included: true },
+                { text: 'Direct Seller Contact (Priority)', included: true },
+                { text: 'WhatsApp direct access', included: true },
+                { text: '10 Warehouse Audit Reports/mo', included: true },
+                { text: 'AI Project Cost Calculator', included: true },
+            ],
+            cta: 'Go Elite'
+        },
+    ];
+
+    const sellerPlans: Plan[] = [
         {
             name: 'Starter',
             tagline: 'For new sellers testing the market',
             price: 0,
             priceLabel: 'Free Forever',
             commission: '5%',
+            badge: '',
             highlight: false,
             features: [
                 { text: 'Up to 10 product listings', included: true },
@@ -33,8 +108,8 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
                 { text: 'RFQ marketplace access', included: false },
                 { text: 'Priority listing placement', included: false },
                 { text: 'Advanced analytics', included: false },
-                { text: 'Dedicated account manager', included: false },
             ],
+            cta: 'Start Selling Free'
         },
         {
             name: 'Pro',
@@ -42,19 +117,19 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
             price: getPrice(4999),
             priceLabel: `₹${getPrice(4999).toLocaleString('en-IN')}/mo`,
             commission: '3%',
+            badge: 'Best Value',
             highlight: true,
-            badge: 'Most Popular',
             features: [
                 { text: 'Unlimited product listings', included: true },
                 { text: 'Verified seller badge', included: true },
                 { text: 'Sample + bulk order processing', included: true },
                 { text: 'WhatsApp + in-app messaging', included: true },
                 { text: 'GST invoice support', included: true },
-                { text: 'RFQ marketplace access', included: true },
+                { text: 'RFQ marketplace access', included: true, isKey: true },
                 { text: 'Priority listing placement', included: true },
                 { text: 'Advanced analytics dashboard', included: true },
-                { text: 'Dedicated account manager', included: false },
             ],
+            cta: 'Start 14-Day Trial'
         },
         {
             name: 'Enterprise',
@@ -62,6 +137,7 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
             price: getPrice(14999),
             priceLabel: `₹${getPrice(14999).toLocaleString('en-IN')}/mo`,
             commission: '1.5%',
+            badge: '',
             highlight: false,
             features: [
                 { text: 'Unlimited product listings', included: true },
@@ -72,25 +148,48 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
                 { text: 'Priority RFQ access (first to quote)', included: true },
                 { text: 'Homepage featured placement', included: true },
                 { text: 'Real-time analytics + reports', included: true },
-                { text: 'Dedicated account manager', included: true },
             ],
+            cta: 'Contact Sales'
         },
     ];
+
+    const activePlans = activeTab === 'buyer' ? buyerPlans : sellerPlans;
 
     return (
         <div className="py-12 lg:py-20">
             <div className="container mx-auto px-4 max-w-6xl">
                 {/* Header */}
-                <div className="text-center mb-12">
-                    <div className="inline-flex items-center gap-2 bg-stone-accent/10 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest text-stone-accent mb-6">
-                        Seller Plans
-                    </div>
-                    <h1 className="text-4xl lg:text-5xl font-black text-stone-primary mb-4">
-                        Sell More, Pay Less
+                <div className="text-center mb-10">
+                    <h1 className="text-4xl lg:text-5xl font-black tracking-tight text-stone-primary mb-3">
+                        Pricing Built for India
                     </h1>
-                    <p className="text-stone-secondary text-lg max-w-2xl mx-auto">
-                        Start free. Upgrade when you grow. Lowest commission rates in the industry.
+                    <p className="text-lg text-stone-secondary max-w-xl mx-auto">
+                        Simple, transparent. Choose how you want to use StoneTrade.
                     </p>
+                </div>
+
+                {/* Tab Toggle */}
+                <div className="flex justify-center mb-8">
+                    <div className="inline-flex bg-stone-light/50 rounded-2xl p-1.5 shadow-inner">
+                        <button
+                            onClick={() => setActiveTab('buyer')}
+                            className={`px-8 py-3 rounded-xl font-bold transition-all ${activeTab === 'buyer'
+                                ? 'bg-white text-stone-primary shadow-lg ring-1 ring-stone-accent/10'
+                                : 'text-stone-secondary hover:text-stone-primary'
+                                }`}
+                        >
+                            👷 Buyers & Architects
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('seller')}
+                            className={`px-8 py-3 rounded-xl font-bold transition-all ${activeTab === 'seller'
+                                ? 'bg-white text-stone-primary shadow-lg ring-1 ring-emerald-500/10'
+                                : 'text-stone-secondary hover:text-stone-primary'
+                                }`}
+                        >
+                            🏭 Sellers & Factories
+                        </button>
+                    </div>
                 </div>
 
                 {/* Billing toggle */}
@@ -98,7 +197,7 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
                     <span className={`text-sm font-bold ${billingPeriod === 'monthly' ? 'text-stone-primary' : 'text-stone-secondary'}`}>Monthly</span>
                     <button
                         onClick={() => setBillingPeriod(prev => prev === 'monthly' ? 'annual' : 'monthly')}
-                        className={`relative w-14 h-7 rounded-full transition-colors ${billingPeriod === 'annual' ? 'bg-emerald-500' : 'bg-stone-secondary/30'}`}
+                        className={`relative w-14 h-7 rounded-full transition-colors ${billingPeriod === 'annual' ? (activeTab === 'buyer' ? 'bg-stone-accent' : 'bg-emerald-500') : 'bg-stone-secondary/30'}`}
                         aria-label="Toggle billing period"
                     >
                         <span className={`absolute top-0.5 w-6 h-6 bg-white rounded-full shadow-md transition-transform ${billingPeriod === 'annual' ? 'translate-x-7' : 'translate-x-0.5'}`} />
@@ -110,122 +209,127 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
 
                 {/* Plans */}
                 <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-                    {plans.map((plan) => (
+                    {activePlans.map((plan) => (
                         <div
                             key={plan.name}
-                            className={`relative rounded-3xl p-8 transition-all ${plan.highlight
-                                    ? 'bg-stone-primary text-white shadow-2xl scale-[1.02] ring-2 ring-stone-accent'
-                                    : 'bg-white border border-stone-accent/10 shadow-sm'
+                            className={`relative rounded-3xl p-8 transition-all flex flex-col ${plan.highlight
+                                ? `bg-stone-primary text-white shadow-2xl scale-[1.02] ring-2 ${activeTab === 'seller' ? 'ring-emerald-500' : 'ring-stone-accent'}`
+                                : 'bg-white border border-stone-accent/10 shadow-sm'
                                 }`}
                         >
                             {plan.badge && (
-                                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-stone-accent text-stone-primary text-xs font-black px-4 py-1 rounded-full">
+                                <span className={`absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-black px-4 py-1 rounded-full ${activeTab === 'seller' ? 'bg-emerald-500 text-white' : 'bg-stone-accent text-stone-primary'}`}>
                                     {plan.badge}
                                 </span>
                             )}
 
                             <h3 className="text-xl font-black mb-1">{plan.name}</h3>
-                            <p className={`text-sm mb-6 ${plan.highlight ? 'text-white/60' : 'text-stone-secondary'}`}>{plan.tagline}</p>
+                            <p className={`text-sm mb-6 pb-6 border-b ${plan.highlight ? 'text-white/60 border-white/10' : 'text-stone-secondary border-stone-accent/10'}`}>{plan.tagline}</p>
 
                             <div className="mb-2">
                                 <span className="text-4xl font-black">{plan.price === 0 ? 'Free' : plan.priceLabel}</span>
                             </div>
-                            <p className={`text-sm mb-8 ${plan.highlight ? 'text-stone-accent' : 'text-stone-accent font-bold'}`}>
-                                {plan.commission} commission on orders
-                            </p>
+                            {'commission' in plan && (
+                                <p className={`text-sm mb-6 font-bold ${plan.highlight ? 'text-emerald-400' : 'text-emerald-600'}`}>
+                                    {plan.commission} commission on orders
+                                </p>
+                            )}
+                            {!('commission' in plan) && <div className="mb-6"></div>}
 
-                            <button
-                                onClick={() => navigateTo('register')}
-                                className={`w-full py-4 rounded-2xl font-bold text-lg transition-all mb-8 ${plan.highlight
-                                        ? 'bg-stone-accent text-stone-primary hover:bg-white'
-                                        : 'bg-stone-primary text-white hover:bg-stone-secondary'
-                                    }`}
-                            >
-                                {plan.price === 0 ? 'Start Free' : 'Start 14-Day Trial'}
-                            </button>
-
-                            <ul className="space-y-3">
-                                {plan.features.map((feature) => (
-                                    <li key={feature.text} className="flex items-start gap-3 text-sm">
-                                        <span className={`mt-0.5 flex-shrink-0 ${feature.included ? 'text-emerald-400' : (plan.highlight ? 'text-white/20' : 'text-stone-secondary/30')}`}>
+                            <ul className="space-y-4 flex-grow mb-8">
+                                {plan.features.map((feature, idx) => (
+                                    <li key={idx} className="flex items-start gap-3 text-sm">
+                                        <span className={`mt-0.5 flex-shrink-0 ${feature.included ? (activeTab === 'seller' && plan.highlight ? 'text-emerald-400' : 'text-emerald-500') : (plan.highlight ? 'text-white/20' : 'text-stone-secondary/30')}`}>
                                             {feature.included ? '✓' : '—'}
                                         </span>
-                                        <span className={feature.included ? '' : (plan.highlight ? 'text-white/30' : 'text-stone-secondary/40')}>
+                                        <span className={`flex-1 ${feature.included ? (feature.isKey ? 'font-bold' : '') : (plan.highlight ? 'text-white/30' : 'text-stone-secondary/40')}`}>
                                             {feature.text}
+                                            {feature.suffix && (
+                                                <span className={`ml-2 text-[10px] px-2 py-0.5 rounded-full font-bold ${plan.highlight ? 'bg-white/20 text-white' : 'bg-stone-accent/20 text-stone-secondary'}`}>
+                                                    {feature.suffix}
+                                                </span>
+                                            )}
                                         </span>
                                     </li>
                                 ))}
                             </ul>
+
+                            <button
+                                onClick={() => navigateTo('register')}
+                                className={`w-full py-4 rounded-2xl font-bold text-lg transition-all ${plan.highlight
+                                    ? (activeTab === 'seller' ? 'bg-emerald-500 text-white hover:bg-emerald-600' : 'bg-stone-accent text-stone-primary hover:bg-white')
+                                    : 'bg-stone-primary text-white hover:bg-stone-secondary'
+                                    }`}
+                            >
+                                {plan.cta}
+                            </button>
                         </div>
                     ))}
                 </div>
 
-                {/* Buyer section */}
-                <div className="mt-16 bg-stone-light rounded-3xl p-8 lg:p-12 text-center">
-                    <h2 className="text-3xl font-black text-stone-primary mb-4">For Buyers: It&apos;s Always Free</h2>
-                    <p className="text-stone-secondary max-w-2xl mx-auto mb-8">
-                        Browse products, order samples, submit RFQs, compare prices, and chat with sellers — all at zero cost. We only charge sellers.
-                    </p>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-                        {[
-                            { icon: '🔍', text: 'Unlimited Browsing' },
-                            { icon: '📦', text: 'Sample Orders' },
-                            { icon: '📝', text: 'Submit RFQs' },
-                            { icon: '💬', text: 'WhatsApp Support' },
-                        ].map(item => (
-                            <div key={item.text} className="bg-white p-4 rounded-2xl text-center">
-                                <span className="text-2xl mb-2 block">{item.icon}</span>
-                                <span className="text-xs font-bold text-stone-primary">{item.text}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                {/* Feature Comparison */}
+                <div className="mt-20">
+                    <h2 className="text-3xl font-black text-center text-stone-primary mb-10">Compare {activeTab === 'buyer' ? 'Buyer' : 'Seller'} Plans</h2>
+                    <div className="overflow-x-auto bg-white rounded-3xl shadow-sm border border-stone-accent/10">
+                        <table className="w-full text-sm">
+                            <thead>
+                                <tr className="border-b-2 border-stone-accent/20">
+                                    <th className="text-left py-6 px-6 font-bold text-stone-primary text-base">Key Capabilities</th>
+                                    {activePlans.map(plan => (
+                                        <th key={plan.name} className={`text-center py-6 px-6 font-bold text-base ${plan.highlight ? (activeTab === 'seller' ? 'text-emerald-600' : 'text-stone-accent') : 'text-stone-primary'}`}>
+                                            {plan.name}
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-stone-accent/10">
+                                {activeTab === 'buyer' ? (
+                                    <>
+                                        <tr className="bg-stone-light/30"><td colSpan={4} className="py-3 px-6 font-bold text-stone-primary">Marketplace Access</td></tr>
+                                        <tr><td className="py-4 px-6">Browse 10K+ Listings</td><td className="text-center font-bold">Yes</td><td className="text-center font-bold">Yes</td><td className="text-center font-bold">Yes</td></tr>
+                                        <tr><td className="py-4 px-6">Sample Orders</td><td className="text-center font-bold">8% Fee</td><td className="text-center font-bold text-emerald-600">5% Fee</td><td className="text-center font-bold text-emerald-600">5% Fee</td></tr>
+                                        <tr><td className="py-4 px-6">Post RFQs</td><td className="text-center font-bold">Yes</td><td className="text-center font-bold">Yes</td><td className="text-center font-bold">Yes</td></tr>
 
-                {/* Revenue Model Transparency */}
-                <div className="mt-16">
-                    <h2 className="text-3xl font-black text-center text-stone-primary mb-10">How We Make Money</h2>
-                    <div className="grid md:grid-cols-3 gap-6">
-                        <div className="bg-white p-6 rounded-2xl border border-stone-accent/5 text-center">
-                            <div className="w-12 h-12 bg-stone-accent/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                                <ShieldIcon className="h-6 w-6 text-stone-accent" />
-                            </div>
-                            <h3 className="font-bold mb-2">Seller Subscriptions</h3>
-                            <p className="text-stone-secondary text-sm">Pro & Enterprise sellers pay a monthly fee for premium features and lower commission rates.</p>
-                        </div>
-                        <div className="bg-white p-6 rounded-2xl border border-stone-accent/5 text-center">
-                            <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                                <span className="text-xl">💰</span>
-                            </div>
-                            <h3 className="font-bold mb-2">Transaction Commission</h3>
-                            <p className="text-stone-secondary text-sm">A small 1.5-5% commission on orders processed through StoneTrade. Lower rate for higher plans.</p>
-                        </div>
-                        <div className="bg-white p-6 rounded-2xl border border-stone-accent/5 text-center">
-                            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                                <SparklesIcon className="h-6 w-6 text-blue-600" />
-                            </div>
-                            <h3 className="font-bold mb-2">Promoted Listings</h3>
-                            <p className="text-stone-secondary text-sm">Sellers can boost their products to appear at the top of search results and homepage features.</p>
-                        </div>
+                                        <tr className="bg-stone-light/30"><td colSpan={4} className="py-3 px-6 font-bold text-stone-primary">Seller Contact & Trust</td></tr>
+                                        <tr><td className="py-4 px-6">Direct Seller Contact</td><td className="text-center text-stone-secondary">❌</td><td className="text-center font-bold text-emerald-600">Unlimited</td><td className="text-center font-bold text-emerald-600">Priority</td></tr>
+                                        <tr><td className="py-4 px-6">Warehouse Audit Reports</td><td className="text-center text-stone-secondary">❌</td><td className="text-center font-bold text-emerald-600">5 / month</td><td className="text-center font-bold text-amber-600">10 / month</td></tr>
+                                        <tr><td className="py-4 px-6">AI Price Alerts</td><td className="text-center text-stone-secondary">❌</td><td className="text-center font-bold">Yes</td><td className="text-center font-bold">Yes</td></tr>
+                                    </>
+                                ) : (
+                                    <>
+                                        <tr className="bg-stone-light/30"><td colSpan={4} className="py-3 px-6 font-bold text-stone-primary">Selling & Orders</td></tr>
+                                        <tr><td className="py-4 px-6">Active Listings</td><td className="text-center font-bold">Up to 10</td><td className="text-center font-bold text-emerald-600">Unlimited</td><td className="text-center font-bold text-emerald-600">Unlimited</td></tr>
+                                        <tr><td className="py-4 px-6">Order Processing Commission</td><td className="text-center font-bold">5%</td><td className="text-center font-bold text-emerald-600">3%</td><td className="text-center font-bold text-amber-600">1.5%</td></tr>
+                                        <tr><td className="py-4 px-6">WhatsApp Inquiries</td><td className="text-center font-bold">Yes</td><td className="text-center font-bold">Yes</td><td className="text-center font-bold">Yes</td></tr>
+
+                                        <tr className="bg-stone-light/30"><td colSpan={4} className="py-3 px-6 font-bold text-stone-primary">Premium Features</td></tr>
+                                        <tr><td className="py-4 px-6">Bulk RFQ Market Access</td><td className="text-center text-stone-secondary">❌</td><td className="text-center font-bold text-emerald-600">Unlimited</td><td className="text-center font-bold text-emerald-600">Priority (First to quote)</td></tr>
+                                        <tr><td className="py-4 px-6">Priority Search Placement</td><td className="text-center text-stone-secondary">❌</td><td className="text-center font-bold">Yes</td><td className="text-center font-bold">Featured</td></tr>
+                                        <tr><td className="py-4 px-6">Quarry-Direct Badge</td><td className="text-center text-stone-secondary">❌</td><td className="text-center text-stone-secondary">❌</td><td className="text-center font-bold">Yes</td></tr>
+                                    </>
+                                )}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
                 {/* FAQ */}
-                <div className="mt-16 max-w-3xl mx-auto">
+                <div className="mt-20 max-w-3xl mx-auto">
                     <h2 className="text-3xl font-black text-center text-stone-primary mb-10">Common Questions</h2>
                     <div className="space-y-4">
                         {[
-                            { q: 'Can I start selling without paying anything?', a: 'Yes! The Starter plan is free forever. List up to 10 products, process sample orders, and receive WhatsApp enquiries — all at zero cost.' },
-                            { q: 'When should I upgrade to Pro?', a: 'When you need unlimited listings, RFQ marketplace access, or want priority placement. Most sellers upgrade after their first 5 orders on the platform.' },
-                            { q: 'What is the commission on? Sample or bulk?', a: 'Commission only applies on orders processed through StoneTrade payment gateway. Deals you close directly via WhatsApp or offline don\'t incur any commission.' },
-                            { q: 'Do buyers pay anything?', a: 'Never. Browsing, comparing, submitting RFQs, and messaging sellers is 100% free for buyers.' },
+                            { q: 'Why do buyers have to pay for seller contact?', a: 'By gating seller contacts to Pro buyers, we ensure our sellers only deal with serious, genuine inquiries. This eliminates spam and saves time for both parties. You can always order samples on the free plan!' },
+                            { q: activeTab === 'seller' ? 'Can I start selling without paying anything?' : 'Can I use StoneTrade for free?', a: activeTab === 'seller' ? 'Yes! The Starter plan is free forever. List up to 10 products, process sample orders, and receive WhatsApp enquiries — all at zero cost.' : 'Absolutely. The Lite plan is free forever. You can browse all listings, submit bulk RFQs, and order physical samples (with an 8% platform fee).' },
+                            { q: 'What is the commission on? Sample or bulk?', a: 'Commission only applies on orders processed through StoneTrade payment gateway. Deals you close directly via WhatsApp or offline don\'t incur any platform commission.' },
+                            { q: 'Do you offer a free trial?', a: 'Yes, ALL Pro and Enterprise seller plans come with a 14-day free trial. You won\'t be billed if you cancel within the trial period.' },
                             { q: 'Can I cancel my subscription?', a: 'Yes, cancel anytime. Your existing listings stay active until the end of your paid period. You can always downgrade to the free Starter plan.' },
                         ].map(faq => (
-                            <details key={faq.q} className="bg-white rounded-2xl border border-stone-accent/5 group">
-                                <summary className="p-5 font-bold cursor-pointer hover:text-stone-accent transition-colors list-none flex items-center justify-between">
+                            <details key={faq.q} className="bg-white rounded-2xl border border-stone-accent/5 shadow-sm group">
+                                <summary className="p-6 font-bold cursor-pointer hover:text-stone-accent transition-colors list-none flex items-center justify-between">
                                     {faq.q}
-                                    <span className="text-stone-accent group-open:rotate-45 transition-transform text-xl">+</span>
+                                    <span className="text-stone-accent group-open:rotate-45 transition-transform text-2xl font-light leading-none">+</span>
                                 </summary>
-                                <p className="px-5 pb-5 text-stone-secondary text-sm leading-relaxed">{faq.a}</p>
+                                <p className="px-6 pb-6 text-stone-secondary text-sm leading-relaxed">{faq.a}</p>
                             </details>
                         ))}
                     </div>

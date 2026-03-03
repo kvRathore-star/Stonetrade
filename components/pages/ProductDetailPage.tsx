@@ -218,26 +218,44 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, navigate
 
           {/* Contact Seller */}
           <div className="space-y-3">
-            <WhatsAppButton
-              sellerName={product.seller.name}
-              sellerPhone={product.seller.contact?.whatsapp}
-              productName={product.name}
-              productPrice={product.price}
-              className="w-full justify-center"
-            />
-            <div className="flex gap-3">
-              <ChatTrigger onClick={() => setShowChat(true)} isPro={isPro} />
-              <button
-                onClick={() => setShowContact(true)}
-                className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all ${isPro
-                  ? 'bg-stone-primary text-white hover:bg-stone-secondary'
-                  : 'bg-stone-light text-stone-secondary border border-stone-accent/20'
-                  }`}
-              >
-                <SendIcon className="h-5 w-5" />
-                {isPro ? 'Call Seller' : 'Contact (Pro)'}
-              </button>
-            </div>
+            {isPro ? (
+              <>
+                <WhatsAppButton
+                  sellerName={product.seller.name}
+                  sellerPhone={product.seller.contact?.whatsapp}
+                  productName={product.name}
+                  productPrice={product.price}
+                  className="w-full justify-center"
+                />
+                <div className="flex gap-3">
+                  <ChatTrigger onClick={() => setShowChat(true)} isPro={true} />
+                  <button
+                    onClick={() => setShowContact(true)}
+                    className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all bg-stone-primary text-white hover:bg-stone-secondary"
+                  >
+                    <SendIcon className="h-5 w-5" />
+                    Call Seller
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="bg-stone-light/50 border border-stone-accent/10 rounded-2xl p-6 text-center">
+                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm border border-stone-accent/5">
+                  <span className="text-xl">🔒</span>
+                </div>
+                <h4 className="font-bold text-stone-primary text-sm mb-2">Direct Seller Contact Locked</h4>
+                <p className="text-xs text-stone-secondary mb-4 leading-relaxed">
+                  Free users can browse and order samples. Upgrade to Pro to unlock direct WhatsApp access, call sellers, and get audit reports.
+                </p>
+                <button
+                  onClick={() => navigateTo('pricing')}
+                  className="w-full bg-emerald-500 text-white py-3 rounded-xl font-bold text-sm hover:bg-emerald-600 transition-colors shadow-lg"
+                >
+                  Unlock Seller Contact (from ₹499/mo)
+                </button>
+              </div>
+            )}
+
             <button
               onClick={() => navigateTo('rfq')}
               className="w-full bg-stone-light text-stone-primary py-3.5 rounded-xl font-bold text-sm hover:bg-stone-accent/20 transition-colors border border-stone-accent/10 flex items-center justify-center gap-2"
