@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
-export type Page = 'home' | 'products' | 'productDetail' | 'sellerDashboard' | 'buyerDashboard' | 'checkout' | 'sampleCheckout' | 'pricing' | 'register' | 'compare' | 'about' | 'contact' | 'adminDashboard';
+export type Page = 'home' | 'products' | 'productDetail' | 'sellerDashboard' | 'buyerDashboard' | 'checkout' | 'sampleCheckout' | 'pricing' | 'register' | 'compare' | 'about' | 'contact' | 'adminDashboard' | 'rfq';
 
 // Map old page names to Next.js routes
 const PAGE_ROUTES: Record<Page, string> = {
@@ -20,6 +20,7 @@ const PAGE_ROUTES: Record<Page, string> = {
     compare: '/compare',
     about: '/about',
     contact: '/contact',
+    rfq: '/rfq',
 };
 
 interface NavigationContextType {

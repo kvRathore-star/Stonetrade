@@ -13,6 +13,8 @@ import VerifiedBadge from '@/components/VerifiedBadge';
 import ChatWindow, { ChatTrigger } from '@/components/ChatWindow';
 import ContactModal from '@/components/ContactModal';
 import IntentLockModal from '@/components/IntentLockModal';
+import WhatsAppButton from '@/components/WhatsAppButton';
+import { useNavigation } from '@/lib/navigation';
 
 interface ProductDetailPageProps {
   product: Product;
@@ -215,17 +217,32 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, navigate
           </div>
 
           {/* Contact Seller */}
-          <div className="flex gap-4">
-            <ChatTrigger onClick={() => setShowChat(true)} isPro={isPro} />
+          <div className="space-y-3">
+            <WhatsAppButton
+              sellerName={product.seller.name}
+              sellerPhone={product.seller.contact?.whatsapp}
+              productName={product.name}
+              productPrice={product.price}
+              className="w-full justify-center"
+            />
+            <div className="flex gap-3">
+              <ChatTrigger onClick={() => setShowChat(true)} isPro={isPro} />
+              <button
+                onClick={() => setShowContact(true)}
+                className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all ${isPro
+                  ? 'bg-stone-primary text-white hover:bg-stone-secondary'
+                  : 'bg-stone-light text-stone-secondary border border-stone-accent/20'
+                  }`}
+              >
+                <SendIcon className="h-5 w-5" />
+                {isPro ? 'Call Seller' : 'Contact (Pro)'}
+              </button>
+            </div>
             <button
-              onClick={() => setShowContact(true)}
-              className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all ${isPro
-                ? 'bg-stone-primary text-white hover:bg-stone-secondary'
-                : 'bg-stone-light text-stone-secondary border border-stone-accent/20'
-                }`}
+              onClick={() => navigateTo('rfq')}
+              className="w-full bg-stone-light text-stone-primary py-3.5 rounded-xl font-bold text-sm hover:bg-stone-accent/20 transition-colors border border-stone-accent/10 flex items-center justify-center gap-2"
             >
-              <SendIcon className="h-5 w-5" />
-              {isPro ? 'Call Seller' : 'Contact (Pro)'}
+              📝 Need Bulk? Get Multiple Quotes
             </button>
           </div>
 

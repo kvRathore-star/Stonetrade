@@ -273,3 +273,126 @@ CREATE OR REPLACE TRIGGER products_updated_at BEFORE UPDATE ON products FOR EACH
 CREATE OR REPLACE TRIGGER inquiries_updated_at BEFORE UPDATE ON inquiries FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 CREATE OR REPLACE TRIGGER sample_orders_updated_at BEFORE UPDATE ON sample_orders FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 CREATE OR REPLACE TRIGGER profiles_updated_at BEFORE UPDATE ON profiles FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+-- ============================================
+-- 10. RFQs (Request for Quotes) — Bulk Orders
+-- ============================================
+CREATE TABLE IF NOT EXISTS rfqs (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  buyer_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  buyer_name TEXT NOT NULL,
+  buyer_email TEXT NOT NULL,
+  buyer_phone TEXT NOT NULL,
+  buyer_company TEXT,
+  stone_type TEXT NOT NULL,
+  finish TEXT,
+  color_preference TEXT,
+  thickness TEXT,
+  size_dimensions TEXT,
+  quantity INTEGER NOT NULL,
+  quantity_unit TEXT CHECK (quantity_unit IN ('sq.ft', 'pieces', 'tons', 'containers')) DEFAULT 'sq.ft',
+  use_case TEXT,                       -- e.g. 'Flooring', 'Countertop', 'Exterior Cladding'
+  delivery_location TEXT NOT NULL,
+  delivery_state TEXT NOT NULL,
+  delivery_pincode TEXT,
+  budget_min NUMERIC(12,2),
+  budget_max NUMERIC(12,2),
+  notes TEXT,
+  urgency TEXT CHECK (urgency IN ('flexible', 'within_week', 'within_month', 'urgent')) DEFAULT 'within_month',
+  status TEXT CHECK (status IN ('open', 'quoted', 'in_negotiation', 'closed', 'expired')) DEFAULT 'open',
+  quotes_count INTEGER DEFAULT 0,
+  expires_at TIMESTAMPTZ DEFAULT (NOW() + INTERVAL '30 days'),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- ============================================
+-- 11. RFQ QUOTES (Seller Responses)
+-- ============================================
+CREATE TABLE IF NOT EXISTS rfq_quotes (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  rfq_id UUID REFERENCES rfqs(id) ON DELETE CASCADE NOT NULL,
+  seller_id UUID REFERENCES sellers(id) ON DELETE CASCADE NOT NULL,
+  price_per_unit NUMERIC(10,2) NOT NULL,
+  price_unit TEXT NOT NULL,
+  min_order_qty INTEGER NOT NULL,
+  delivery_days INTEGER NOT NULL,
+  delivery_included BOOLEAN DEFAULT false,
+  product_id UUID REFERENCES products(id) ON DELETE SET NULL,     -- optional: link to listed product
+  message TEXT,
+  sample_available BOOLEAN DEFAULT true,
+  sample_price NUMERIC(8,2) DEFAULT 99.00,
+  valid_until TIMESTAMPTZ DEFAULT (NOW() + INTERVAL '7 days'),
+  status TEXT CHECK (status IN ('submitted', 'viewed', 'accepted', 'rejected', 'expired')) DEFAULT 'submitted',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- ============================================
+-- 12. SELLER SUBSCRIPTIONS (Hybrid Pricing)
+-- ============================================
+CREATE TABLE IF NOT EXISTS seller_subscriptions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  seller_id UUID REFERENCES sellers(id) ON DELETE CASCADE NOT NULL UNIQUE,
+  plan TEXT CHECK (plan IN ('free', 'pro', 'enterprise')) DEFAULT 'free',
+  max_listings INTEGER DEFAULT 10,
+  commission_rate NUMERIC(4,2) DEFAULT 5.00,    -- percentage
+  rfq_access BOOLEAN DEFAULT false,
+  priority_listing BOOLEAN DEFAULT false,
+  analytics_access BOOLEAN DEFAULT false,
+  dedicated_manager BOOLEAN DEFAULT false,
+  razorpay_subscription_id TEXT,
+  current_period_start TIMESTAMPTZ,
+  current_period_end TIMESTAMPTZ,
+  status TEXT CHECK (status IN ('active', 'cancelled', 'past_due', 'trialing')) DEFAULT 'active',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- RFQ indexes
+CREATE INDEX IF NOT EXISTS idx_rfqs_buyer ON rfqs(buyer_id);
+CREATE INDEX IF NOT EXISTS idx_rfqs_status ON rfqs(status) WHERE status = 'open';
+CREATE INDEX IF NOT EXISTS idx_rfqs_stone_type ON rfqs(stone_type);
+CREATE INDEX IF NOT EXISTS idx_rfq_quotes_rfq ON rfq_quotes(rfq_id);
+CREATE INDEX IF NOT EXISTS idx_rfq_quotes_seller ON rfq_quotes(seller_id);
+CREATE INDEX IF NOT EXISTS idx_seller_subs_seller ON seller_subscriptions(seller_id);
+
+-- RFQ RLS
+ALTER TABLE rfqs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE rfq_quotes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE seller_subscriptions ENABLE ROW LEVEL SECURITY;
+
+-- RFQs: open RFQs visible to verified sellers, buyers see own
+CREATE POLICY "Open RFQs visible to all" ON rfqs FOR SELECT USING (status = 'open' OR auth.uid() = buyer_id);
+CREATE POLICY "Authenticated buyers can create RFQs" ON rfqs FOR INSERT WITH CHECK (auth.uid() IS NOT NULL);
+CREATE POLICY "Buyers manage own RFQs" ON rfqs FOR UPDATE USING (auth.uid() = buyer_id);
+
+-- RFQ Quotes: seller sees own, buyer sees quotes on own RFQ
+CREATE POLICY "Sellers see own quotes" ON rfq_quotes FOR SELECT USING (seller_id IN (SELECT id FROM sellers WHERE user_id = auth.uid()));
+CREATE POLICY "Buyers see quotes on own RFQ" ON rfq_quotes FOR SELECT USING (rfq_id IN (SELECT id FROM rfqs WHERE buyer_id = auth.uid()));
+CREATE POLICY "Sellers can submit quotes" ON rfq_quotes FOR INSERT WITH CHECK (seller_id IN (SELECT id FROM sellers WHERE user_id = auth.uid()));
+
+-- Subscriptions: seller sees own
+CREATE POLICY "Sellers see own subscription" ON seller_subscriptions FOR SELECT USING (seller_id IN (SELECT id FROM sellers WHERE user_id = auth.uid()));
+
+-- Auto-update triggers
+CREATE OR REPLACE TRIGGER rfqs_updated_at BEFORE UPDATE ON rfqs FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE OR REPLACE TRIGGER rfq_quotes_updated_at BEFORE UPDATE ON rfq_quotes FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE OR REPLACE TRIGGER seller_subs_updated_at BEFORE UPDATE ON seller_subscriptions FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+-- Auto-increment quotes_count on RFQ when a quote is submitted
+CREATE OR REPLACE FUNCTION increment_rfq_quotes_count()
+RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE rfqs SET quotes_count = quotes_count + 1 WHERE id = NEW.rfq_id;
+  IF (SELECT quotes_count FROM rfqs WHERE id = NEW.rfq_id) >= 1 AND
+     (SELECT status FROM rfqs WHERE id = NEW.rfq_id) = 'open' THEN
+    UPDATE rfqs SET status = 'quoted' WHERE id = NEW.rfq_id;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE OR REPLACE TRIGGER on_rfq_quote_created
+  AFTER INSERT ON rfq_quotes
+  FOR EACH ROW EXECUTE FUNCTION increment_rfq_quotes_count();
