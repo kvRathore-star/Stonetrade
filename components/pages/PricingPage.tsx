@@ -27,7 +27,6 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
         highlight: boolean;
         features: PlanFeature[];
         cta: string;
-        commission?: string;
     };
 
     const buyerPlans: Plan[] = [
@@ -40,7 +39,7 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
             highlight: false,
             features: [
                 { text: 'Browse & Compare 10,000+ Listings', included: true },
-                { text: 'Order physical samples', included: true, suffix: '8% fee' },
+                { text: 'Order physical samples', included: true },
                 { text: 'Post bulk RFQs', included: true },
                 { text: 'View Verified Sellers', included: true },
                 { text: 'Direct Seller Contact', included: false },
@@ -53,16 +52,16 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
         {
             name: 'Pro',
             tagline: 'For professionals ordering regularly',
-            price: getPrice(199),
-            priceLabel: `₹${getPrice(199).toLocaleString('en-IN')}/mo`,
+            price: getPrice(299),
+            priceLabel: `₹${getPrice(299).toLocaleString('en-IN')}/mo`,
             badge: 'Most Popular',
             highlight: true,
             features: [
                 { text: 'Browse & Compare 10,000+ Listings', included: true },
-                { text: 'Order physical samples', included: true, suffix: '5% fee' },
+                { text: 'Order physical samples', included: true },
                 { text: 'Post bulk RFQs', included: true },
                 { text: 'View Verified Sellers', included: true },
-                { text: 'Direct Seller Contact', included: true, isKey: true },
+                { text: '100 Seller Contacts / mo', included: true, isKey: true },
                 { text: 'WhatsApp direct access', included: true, isKey: true },
                 { text: '5 Warehouse Audit Reports/mo', included: true },
                 { text: 'AI Price Alerts', included: true },
@@ -78,10 +77,10 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
             highlight: false,
             features: [
                 { text: 'Browse & Compare 10,000+ Listings', included: true },
-                { text: 'Order physical samples', included: true, suffix: '5% fee' },
+                { text: 'Order physical samples', included: true },
                 { text: 'Post bulk RFQs', included: true },
                 { text: 'View Verified Sellers', included: true },
-                { text: 'Direct Seller Contact (Priority)', included: true },
+                { text: 'Unlimited Seller Contact (Priority)', included: true },
                 { text: 'WhatsApp direct access', included: true },
                 { text: '10 Warehouse Audit Reports/mo', included: true },
                 { text: 'AI Project Cost Calculator', included: true },
@@ -96,7 +95,6 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
             tagline: 'For new sellers testing the market',
             price: 0,
             priceLabel: 'Free Forever',
-            commission: '5%',
             badge: '',
             highlight: false,
             features: [
@@ -116,11 +114,10 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
             tagline: 'For growing sellers & factories',
             price: getPrice(999),
             priceLabel: `₹${getPrice(999).toLocaleString('en-IN')}/mo`,
-            commission: '3%',
             badge: 'Best Value',
             highlight: true,
             features: [
-                { text: 'Unlimited product listings', included: true },
+                { text: 'Up to 30 product listings', included: true },
                 { text: 'Verified seller badge', included: true },
                 { text: 'Sample + bulk order processing', included: true },
                 { text: 'WhatsApp + in-app messaging', included: true },
@@ -136,7 +133,6 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
             tagline: 'For large quarries & manufacturers',
             price: getPrice(2999),
             priceLabel: `₹${getPrice(2999).toLocaleString('en-IN')}/mo`,
-            commission: '1.5%',
             badge: '',
             highlight: false,
             features: [
@@ -226,15 +222,9 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
                             <h3 className="text-xl font-black mb-1">{plan.name}</h3>
                             <p className={`text-sm mb-6 pb-6 border-b ${plan.highlight ? 'text-white/60 border-white/10' : 'text-stone-secondary border-stone-accent/10'}`}>{plan.tagline}</p>
 
-                            <div className="mb-2">
+                            <div className="mb-6">
                                 <span className="text-4xl font-black">{plan.price === 0 ? 'Free' : plan.priceLabel}</span>
                             </div>
-                            {'commission' in plan && (
-                                <p className={`text-sm mb-6 font-bold ${plan.highlight ? 'text-emerald-400' : 'text-emerald-600'}`}>
-                                    {plan.commission} commission on orders
-                                </p>
-                            )}
-                            {!('commission' in plan) && <div className="mb-6"></div>}
 
                             <ul className="space-y-4 flex-grow mb-8">
                                 {plan.features.map((feature, idx) => (
@@ -287,19 +277,18 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
                                     <>
                                         <tr className="bg-stone-light/30"><td colSpan={4} className="py-3 px-6 font-bold text-stone-primary">Marketplace Access</td></tr>
                                         <tr><td className="py-4 px-6">Browse 10K+ Listings</td><td className="text-center font-bold">Yes</td><td className="text-center font-bold">Yes</td><td className="text-center font-bold">Yes</td></tr>
-                                        <tr><td className="py-4 px-6">Sample Orders</td><td className="text-center font-bold">8% Fee</td><td className="text-center font-bold text-emerald-600">5% Fee</td><td className="text-center font-bold text-emerald-600">5% Fee</td></tr>
+                                        <tr><td className="py-4 px-6">Sample Orders</td><td className="text-center font-bold">Yes</td><td className="text-center font-bold text-emerald-600">Yes</td><td className="text-center font-bold text-emerald-600">Yes</td></tr>
                                         <tr><td className="py-4 px-6">Post RFQs</td><td className="text-center font-bold">Yes</td><td className="text-center font-bold">Yes</td><td className="text-center font-bold">Yes</td></tr>
 
                                         <tr className="bg-stone-light/30"><td colSpan={4} className="py-3 px-6 font-bold text-stone-primary">Seller Contact & Trust</td></tr>
-                                        <tr><td className="py-4 px-6">Direct Seller Contact</td><td className="text-center text-stone-secondary">❌</td><td className="text-center font-bold text-emerald-600">Unlimited</td><td className="text-center font-bold text-emerald-600">Priority</td></tr>
+                                        <tr><td className="py-4 px-6">Direct Seller Contact</td><td className="text-center text-stone-secondary">❌</td><td className="text-center font-bold text-emerald-600">100 / month</td><td className="text-center font-bold text-amber-600">Priority + Unlimited</td></tr>
                                         <tr><td className="py-4 px-6">Warehouse Audit Reports</td><td className="text-center text-stone-secondary">❌</td><td className="text-center font-bold text-emerald-600">5 / month</td><td className="text-center font-bold text-amber-600">10 / month</td></tr>
                                         <tr><td className="py-4 px-6">AI Price Alerts</td><td className="text-center text-stone-secondary">❌</td><td className="text-center font-bold">Yes</td><td className="text-center font-bold">Yes</td></tr>
                                     </>
                                 ) : (
                                     <>
                                         <tr className="bg-stone-light/30"><td colSpan={4} className="py-3 px-6 font-bold text-stone-primary">Selling & Orders</td></tr>
-                                        <tr><td className="py-4 px-6">Active Listings</td><td className="text-center font-bold">Up to 10</td><td className="text-center font-bold text-emerald-600">Unlimited</td><td className="text-center font-bold text-emerald-600">Unlimited</td></tr>
-                                        <tr><td className="py-4 px-6">Order Processing Commission</td><td className="text-center font-bold">5%</td><td className="text-center font-bold text-emerald-600">3%</td><td className="text-center font-bold text-amber-600">1.5%</td></tr>
+                                        <tr><td className="py-4 px-6">Active Listings</td><td className="text-center font-bold">Up to 10</td><td className="text-center font-bold text-emerald-600">Up to 30</td><td className="text-center font-bold text-emerald-600">Unlimited</td></tr>
                                         <tr><td className="py-4 px-6">WhatsApp Inquiries</td><td className="text-center font-bold">Yes</td><td className="text-center font-bold">Yes</td><td className="text-center font-bold">Yes</td></tr>
 
                                         <tr className="bg-stone-light/30"><td colSpan={4} className="py-3 px-6 font-bold text-stone-primary">Premium Features</td></tr>
@@ -319,8 +308,8 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
                     <div className="space-y-4">
                         {[
                             { q: 'Why do buyers have to pay for seller contact?', a: 'By gating seller contacts to Pro buyers, we ensure our sellers only deal with serious, genuine inquiries. This eliminates spam and saves time for both parties. You can always order samples on the free plan!' },
-                            { q: activeTab === 'seller' ? 'Can I start selling without paying anything?' : 'Can I use StoneTrade for free?', a: activeTab === 'seller' ? 'Yes! The Starter plan is free forever. List up to 10 products, process sample orders, and receive WhatsApp enquiries — all at zero cost.' : 'Absolutely. The Lite plan is free forever. You can browse all listings, submit bulk RFQs, and order physical samples (with an 8% platform fee).' },
-                            { q: 'What is the commission on? Sample or bulk?', a: 'Commission only applies on orders processed through StoneTrade payment gateway. Deals you close directly via WhatsApp or offline don\'t incur any platform commission.' },
+                            { q: activeTab === 'seller' ? 'Can I start selling without paying anything?' : 'Can I use StoneTrade for free?', a: activeTab === 'seller' ? 'Yes! The Starter plan is free forever. List up to 10 products, process sample orders, and receive WhatsApp enquiries — all at zero cost.' : 'Absolutely. The Lite plan is free forever. You can browse all listings, submit bulk RFQs, and order physical samples.' },
+                            { q: 'What is the limit on listings?', a: 'Sellers on Starter can list up to 10 products. Pro sellers can list up to 30 products. Enterprise sellers get unlimited listings and a dedicated Account Manager.' },
                             { q: 'Do you offer a free trial?', a: 'Yes, ALL Pro and Enterprise seller plans come with a 14-day free trial. You won\'t be billed if you cancel within the trial period.' },
                             { q: 'Can I cancel my subscription?', a: 'Yes, cancel anytime. Your existing listings stay active until the end of your paid period. You can always downgrade to the free Starter plan.' },
                         ].map(faq => (
