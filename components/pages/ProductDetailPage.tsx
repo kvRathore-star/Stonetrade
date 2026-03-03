@@ -251,7 +251,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, navigate
                   onClick={() => navigateTo('pricing')}
                   className="w-full bg-emerald-500 text-white py-3 rounded-xl font-bold text-sm hover:bg-emerald-600 transition-colors shadow-lg"
                 >
-                  Unlock Seller Contact (from ₹499/mo)
+                  Unlock Seller Contact (from ₹199/mo)
                 </button>
               </div>
             )}

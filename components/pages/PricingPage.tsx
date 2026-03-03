@@ -53,8 +53,8 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
         {
             name: 'Pro',
             tagline: 'For professionals ordering regularly',
-            price: getPrice(499),
-            priceLabel: `₹${getPrice(499).toLocaleString('en-IN')}/mo`,
+            price: getPrice(199),
+            priceLabel: `₹${getPrice(199).toLocaleString('en-IN')}/mo`,
             badge: 'Most Popular',
             highlight: true,
             features: [
@@ -72,8 +72,8 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
         {
             name: 'Elite',
             tagline: 'For high-volume buyers & firms',
-            price: getPrice(999),
-            priceLabel: `₹${getPrice(999).toLocaleString('en-IN')}/mo`,
+            price: getPrice(499),
+            priceLabel: `₹${getPrice(499).toLocaleString('en-IN')}/mo`,
             badge: '',
             highlight: false,
             features: [
@@ -114,8 +114,8 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
         {
             name: 'Pro',
             tagline: 'For growing sellers & factories',
-            price: getPrice(4999),
-            priceLabel: `₹${getPrice(4999).toLocaleString('en-IN')}/mo`,
+            price: getPrice(999),
+            priceLabel: `₹${getPrice(999).toLocaleString('en-IN')}/mo`,
             commission: '3%',
             badge: 'Best Value',
             highlight: true,
@@ -134,8 +134,8 @@ const PricingPage: React.FC<PricingPageProps> = ({ navigateTo }) => {
         {
             name: 'Enterprise',
             tagline: 'For large quarries & manufacturers',
-            price: getPrice(14999),
-            priceLabel: `₹${getPrice(14999).toLocaleString('en-IN')}/mo`,
+            price: getPrice(2999),
+            priceLabel: `₹${getPrice(2999).toLocaleString('en-IN')}/mo`,
             commission: '1.5%',
             badge: '',
             highlight: false,
