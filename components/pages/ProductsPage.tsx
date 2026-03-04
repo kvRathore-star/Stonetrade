@@ -57,7 +57,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ navigateTo }) => {
   return (
     <div className="pb-24 bg-stone-light/30">
 
-      {/* Royal / Kesariya Header Section */}
+      {/* Kesariya Header Section */}
       <div className="bg-stone-primary relative overflow-hidden text-white pt-20 pb-24 mb-12 -mt-4 mx-4 lg:mx-8 rounded-[2.5rem] shadow-2xl">
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/black-scales.png')]"></div>
         <div className="absolute top-0 right-0 w-96 h-96 bg-stone-kesariya rounded-full mix-blend-screen filter blur-[100px] opacity-20 transform translate-x-1/3 -translate-y-1/3"></div>
@@ -68,7 +68,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ navigateTo }) => {
             Bharat Native Craftsmanship
           </span>
           <h1 className="text-4xl lg:text-6xl font-black mb-6 tracking-tight leading-tight mix-blend-plus-lighter">
-            The Royal <span className="text-transparent bg-clip-text bg-gradient-to-r from-stone-kesariya to-stone-accent">Stone Marketplace</span>
+            The <span className="text-transparent bg-clip-text bg-gradient-to-r from-stone-kesariya to-stone-accent">Stone Marketplace</span>
           </h1>
           <p className="text-lg lg:text-xl text-white/70 max-w-2xl mx-auto mb-10 font-medium leading-relaxed">
             Discover thousands of pristine marble, granite, and sandstone blocks sourced directly from India's finest verified quarries.

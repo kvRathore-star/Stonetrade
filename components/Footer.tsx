@@ -36,7 +36,7 @@ const Footer: React.FC<FooterProps> = ({ navigateTo }) => {
               <li><a href="#" onClick={(e) => handleNavClick(e, 'about')} className="hover:text-stone-kesariya transition-colors text-sm opacity-70">Our Legacy & Process</a></li>
               <li><a href="#" onClick={(e) => handleNavClick(e, 'pricing')} className="hover:text-stone-kesariya transition-colors text-sm opacity-70">Pro Membership</a></li>
               <li><a href="#" onClick={(e) => handleNavClick(e, 'products')} className="hover:text-stone-kesariya transition-colors text-sm opacity-70">Live Marketplace</a></li>
-              <li><a href="#" onClick={(e) => handleNavClick(e, 'contact')} className="hover:text-stone-kesariya transition-colors text-sm opacity-70">Contact Intelligence</a></li>
+              <li><a href="#" onClick={(e) => handleNavClick(e, 'contact')} className="hover:text-stone-kesariya transition-colors text-sm opacity-70">Contact</a></li>
             </ul>
           </div>
           <div>
@@ -44,7 +44,7 @@ const Footer: React.FC<FooterProps> = ({ navigateTo }) => {
             <ul className="space-y-4">
               <li><a href="#" onClick={(e) => handleNavClick(e, 'register')} className="hover:text-stone-kesariya transition-colors text-sm opacity-70">Sell on StoneTrade</a></li>
               <li><a href="#" onClick={(e) => handleNavClick(e, 'rfq')} className="hover:text-stone-kesariya transition-colors text-sm opacity-70">Post RFQ</a></li>
-              <li><a href="#" onClick={(e) => handleNavClick(e, 'sellerDashboard')} className="hover:text-stone-kesariya transition-colors text-sm opacity-70">Partner Hub</a></li>
+              <li><a href="#" onClick={(e) => handleNavClick(e, 'sellerDashboard')} className="hover:text-stone-kesariya transition-colors text-sm opacity-70">Seller Dashboard</a></li>
               <li><a href="#" className="hover:text-stone-kesariya transition-colors text-sm opacity-70">Marketing Reach</a></li>
             </ul>
           </div>
