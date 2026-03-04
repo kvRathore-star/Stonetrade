@@ -59,8 +59,8 @@ const AIConcierge: React.FC<AIConciergeProps> = ({ isOpen, onClose }) => {
                 content: `📊 **Current Market Prices (Feb 2026)**\n\n**Italian Marble:**\n• Statuario: ₹800-1,200/sq ft\n• Carrara: ₹400-600/sq ft\n• Calacatta: ₹1,500-2,500/sq ft\n\n**Indian Marble:**\n• Makrana White: ₹150-300/sq ft\n• Rajnagar Pink: ₹80-150/sq ft\n• Ambaji White: ₹100-200/sq ft\n\n**Granite:**\n• Black Galaxy: ₹200-400/sq ft\n• Kashmir White: ₹250-450/sq ft\n\n*Prices vary by thickness, finish, and lot size.*`,
                 sources: ['IndiaMART', 'Stone Federation India', 'KPMG Stone Report 2025']
             },
-            'north india': {
-                content: `🏭 **North India Stone Hub**\n\nThe Northern belt is Asia's largest marble hub:\n\n• 4,000+ marble processing units\n• Handles 90% of India's marble trade\n• Key stones: Makrana, Wonder White, Bruno\n\n**Current Trends:**\n• Bruno marble demand ↑ 25% this year\n• Italian imports dropped 15% due to shipping costs\n• New Turkish varieties gaining popularity\n\n**Best time to visit:** Oct-Feb (post monsoon)`,
+            'pan india': {
+                content: `🏭 **National Stone Hubs**\n\nIndia is a global leader in natural stone processing and export. We source from verified hubs nationwide:\n\n• Thousands of processing units Pan-India\n• Covers all 28 states for origin-direct sourcing\n• Key stones: Premium Marbles, Granites, Sandstones\n\n**Current Trends:**\n• Premium domestic granite demand ↑ 25% this year\n• Emphasis on certified quality and digital tracking\n• High-quality local varieties outperforming imports`,
                 sources: ['Rajasthan Stone Development Corporation', 'Economic Times']
             },
             'quality': {
@@ -77,8 +77,8 @@ const AIConcierge: React.FC<AIConciergeProps> = ({ isOpen, onClose }) => {
         const lowerInput = input.toLowerCase();
         if (lowerInput.includes('price') || lowerInput.includes('rate') || lowerInput.includes('cost')) {
             response = responses['price'];
-        } else if (lowerInput.includes('kishangarh') || lowerInput.includes('rajasthan') || lowerInput.includes('north india')) {
-            response = responses['north india'];
+        } else if (lowerInput.includes('kishangarh') || lowerInput.includes('rajasthan') || lowerInput.includes('north india') || lowerInput.includes('national') || lowerInput.includes('pan india')) {
+            response = responses['pan india'];
         } else if (lowerInput.includes('quality') || lowerInput.includes('grade')) {
             response = responses['quality'];
         }
@@ -153,7 +153,7 @@ const AIConcierge: React.FC<AIConciergeProps> = ({ isOpen, onClose }) => {
 
             {/* Quick Actions */}
             <div className="px-4 py-2 flex gap-2 overflow-x-auto bg-white border-t border-stone-accent/10">
-                {['Market prices', 'North India trends', 'Quality grades'].map(q => (
+                {['Market prices', 'National trends', 'Quality grades'].map(q => (
                     <button
                         key={q}
                         onClick={() => setInput(q)}

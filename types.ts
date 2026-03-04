@@ -11,7 +11,7 @@ export enum StoneType {
 }
 
 export enum Origin {
-  KISHANGARH = 'North India',
+  KISHANGARH = 'Pan India',
   MAKRANA = 'Makrana, Rajasthan',
   RAJASTHAN = 'Rajasthan, India',
   INDIA = 'India',

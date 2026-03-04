@@ -25,7 +25,7 @@ const AIFastListing: React.FC = () => {
         color: 'White with Grey Veining',
         finish: 'Polished',
         thickness: '18-20mm',
-        origin: 'North India',
+        origin: 'Pan India',
         price: 1850
     };
 

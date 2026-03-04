@@ -147,18 +147,26 @@ const HomePage: React.FC<HomePageProps> = ({ navigateTo }) => {
                 </section>
 
                 {/* How It Works */}
-                <section className="mt-16 lg:mt-20">
-                    <h2 className="text-3xl font-black text-center mb-10">How It Works</h2>
-                    <div className="grid md:grid-cols-4 gap-6">
+                <section className="mt-20 lg:mt-32 relative">
+                    <div className="absolute top-1/2 left-0 w-full h-px bg-stone-accent/20 hidden lg:block -z-10"></div>
+                    <div className="text-center mb-16 px-4">
+                        <span className="text-stone-kesariya font-black tracking-widest uppercase text-xs mb-3 block">Simple & Transparent</span>
+                        <h2 className="text-4xl md:text-5xl font-black text-stone-primary">How It Works</h2>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 relative z-10 px-4">
                         {[
-                            { step: '01', title: 'Browse & Compare', desc: 'Filter by stone type, origin, price. Compare up to 4 products side-by-side.' },
-                            { step: '02', title: 'Order Sample', desc: 'Get a physical sample delivered to your doorstep within 24 hours for ₹99.' },
-                            { step: '03', title: 'Place Bulk Order', desc: 'Buy directly from the manufacturer. GST invoiced, no brokerage.' },
-                            { step: '04', title: 'Track & Receive', desc: 'Real-time tracking. Quality checked before dispatch. Easy returns if unsatisfied.' },
+                            { step: '01', title: 'Browse & Compare', desc: 'Filter by stone type, origin, price. Compare up to 4 products side-by-side.', icon: '🔍' },
+                            { step: '02', title: 'Order Sample', desc: 'Get a physical sample delivered to your doorstep within 24 hours for ₹99.', icon: '📦' },
+                            { step: '03', title: 'Place Bulk Order', desc: 'Buy directly from the manufacturer. GST invoiced, no brokerage.', icon: '🤝' },
+                            { step: '04', title: 'Track & Receive', desc: 'Real-time tracking. Quality checked before dispatch. Easy returns if unsatisfied.', icon: '🚚' },
                         ].map((item) => (
-                            <div key={item.step} className="relative bg-stone-light/50 p-6 rounded-2xl">
-                                <span className="text-5xl font-black text-stone-accent/15 absolute top-4 right-4">{item.step}</span>
-                                <h3 className="font-bold text-base mb-2 mt-2">{item.title}</h3>
+                            <div key={item.step} className="relative bg-white p-8 rounded-[2rem] shadow-sm border border-stone-accent/10 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
+                                <div className="w-16 h-16 bg-stone-light/50 rounded-2xl flex items-center justify-center text-3xl mb-8 group-hover:bg-stone-kesariya/10 group-hover:scale-110 transition-transform">
+                                    {item.icon}
+                                </div>
+                                <span className="text-7xl font-black text-stone-accent/5 absolute top-6 right-6 group-hover:text-stone-kesariya/10 transition-colors pointer-events-none">{item.step}</span>
+                                <h3 className="font-bold text-xl mb-3 text-stone-primary">{item.title}</h3>
                                 <p className="text-stone-secondary text-sm leading-relaxed">{item.desc}</p>
                             </div>
                         ))}
