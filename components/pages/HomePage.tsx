@@ -74,7 +74,7 @@ const HomePage: React.FC<HomePageProps> = ({ navigateTo }) => {
                             <p className="text-[10px] lg:text-xs uppercase tracking-widest font-bold opacity-60">Brokerage Fee</p>
                         </div>
                         <div className="space-y-1">
-                            <p className="text-3xl lg:text-4xl font-black text-stone-accent">24hr</p>
+                            <p className="text-3xl lg:text-4xl font-black text-stone-accent">Fast</p>
                             <p className="text-[10px] lg:text-xs uppercase tracking-widest font-bold opacity-60">Sample Delivery</p>
                         </div>
                     </div>
@@ -157,7 +157,7 @@ const HomePage: React.FC<HomePageProps> = ({ navigateTo }) => {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 relative z-10 px-4">
                         {[
                             { step: '01', title: 'Browse & Compare', desc: 'Filter by stone type, origin, price. Compare up to 4 products side-by-side.', icon: '🔍' },
-                            { step: '02', title: 'Order Sample', desc: 'Get a physical sample delivered to your doorstep within 24 hours for ₹99.', icon: '📦' },
+                            { step: '02', title: 'Order Sample', desc: 'Get a physical sample delivered directly to your doorstep for architectural review.', icon: '📦' },
                             { step: '03', title: 'Place Bulk Order', desc: 'Buy directly from the manufacturer. GST invoiced, no brokerage.', icon: '🤝' },
                             { step: '04', title: 'Track & Receive', desc: 'Real-time tracking. Quality checked before dispatch. Easy returns if unsatisfied.', icon: '🚚' },
                         ].map((item) => (
