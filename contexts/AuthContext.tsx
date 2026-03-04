@@ -104,7 +104,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 sellerTier: 'gold',
                 businessName: 'Rajesh Marble Traders',
                 gstNumber: '08AABCU9603R1ZM',
-                yardAddress: 'Kishangarh, Rajasthan',
+                yardAddress: 'Pan India',
                 isVerified: true,
                 createdAt: new Date(),
             },

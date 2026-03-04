@@ -8,7 +8,7 @@ const sellers: Seller[] = [
     { id: 2, name: 'Deccan Granite Exports', location: 'Bangalore, India', isVerified: true, verificationLevel: 'Quarry-Direct', rating: 4.5, reviews: 89, contact: { phone: '9876543211', email: 'contact@indiangranite.com' } },
     { id: 3, name: 'Makrana Pure White Heritage', location: 'Makrana, Rajasthan', isVerified: true, verificationLevel: 'Quarry-Direct', rating: 4.9, reviews: 210, contact: { phone: '9876543212', email: 'info@makranawhite.com' } },
     { id: 4, name: 'Global Stone & Craft', location: 'Delhi, India', isVerified: true, verificationLevel: 'Basic', rating: 4.2, reviews: 45, contact: { phone: '9876543213', email: 'support@globalstone.com' } },
-    { id: 5, name: 'Euro-Import Marble Hub', location: 'Kishangarh, India', isVerified: true, verificationLevel: 'Gold', rating: 4.9, reviews: 320, contact: { phone: '9876543214', email: 'orders@italianmarblehub.com' } },
+    { id: 5, name: 'Euro-Import Marble Hub', location: 'India', isVerified: true, verificationLevel: 'Gold', rating: 4.9, reviews: 320, contact: { phone: '9876543214', email: 'orders@italianmarblehub.com' } },
 ];
 
 export const products: Product[] = [

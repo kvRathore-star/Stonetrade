@@ -43,9 +43,9 @@ const Chatbot: React.FC = () => {
 
             setMessages(prev => {
                 const newMessages = [...prev];
-                newMessages[newMessages.length - 1] = { 
-                    sender: 'bot', 
-                    text, 
+                newMessages[newMessages.length - 1] = {
+                    sender: 'bot',
+                    text,
                     isLoading: false,
                     sources: sources || []
                 };
@@ -126,12 +126,12 @@ const Chatbot: React.FC = () => {
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyPress={(e) => e.key === 'Enter' && !isLoading && handleSend()}
-                                placeholder="Ask about Kishangarh prices..."
+                                placeholder="Ask about market prices..."
                                 className="flex-1 bg-transparent px-4 py-3 rounded-full focus:outline-none font-medium text-sm"
                                 disabled={isLoading}
                             />
                             <button onClick={handleSend} disabled={isLoading || !input.trim()} className="bg-stone-primary text-white p-3 rounded-full hover:bg-stone-accent hover:text-stone-primary disabled:opacity-30 transition-all shadow-lg">
-                                <SendIcon className="h-5 w-5"/>
+                                <SendIcon className="h-5 w-5" />
                             </button>
                         </div>
                     </div>

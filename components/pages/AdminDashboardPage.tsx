@@ -8,7 +8,7 @@ const AdminDashboardPage: React.FC = () => {
     const { sellers } = useMockData();
     const pendingSellers = sellers.filter(s => !s.isVerified);
 
-    const StatCard: React.FC<{title: string, value: string, subtitle: string, icon: React.ReactNode, colorClass: string}> = ({title, value, subtitle, icon, colorClass}) => (
+    const StatCard: React.FC<{ title: string, value: string, subtitle: string, icon: React.ReactNode, colorClass: string }> = ({ title, value, subtitle, icon, colorClass }) => (
         <div className="bg-stone-white p-6 rounded-2xl shadow-sm border border-stone-accent/5 flex items-start space-x-4">
             <div className={`p-3 rounded-xl ${colorClass}`}>
                 {icon}
@@ -35,32 +35,32 @@ const AdminDashboardPage: React.FC = () => {
 
             {/* Service Revenue Breakdown */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <StatCard 
-                    title="Audit Subscriptions" 
-                    value="₹12.4L" 
-                    subtitle="35 New Sellers this month" 
-                    icon={<ShieldIcon className="h-6 w-6" />} 
+                <StatCard
+                    title="Audit Subscriptions"
+                    value="₹12.4L"
+                    subtitle="35 New Sellers this month"
+                    icon={<ShieldIcon className="h-6 w-6" />}
                     colorClass="bg-amber-100 text-amber-600"
                 />
-                <StatCard 
-                    title="Lead Credits" 
-                    value="₹8.9L" 
-                    subtitle="4.5k credits sold" 
-                    icon={<SearchIcon className="h-6 w-6" />} 
+                <StatCard
+                    title="Lead Credits"
+                    value="₹8.9L"
+                    subtitle="4.5k credits sold"
+                    icon={<SearchIcon className="h-6 w-6" />}
                     colorClass="bg-blue-100 text-blue-600"
                 />
-                <StatCard 
-                    title="Inspection Fees" 
-                    value="₹4.2L" 
-                    subtitle="168 lots verified" 
-                    icon={<SearchIcon className="h-6 w-6" />} 
+                <StatCard
+                    title="Inspection Fees"
+                    value="₹4.2L"
+                    subtitle="168 lots verified"
+                    icon={<SearchIcon className="h-6 w-6" />}
                     colorClass="bg-purple-100 text-purple-600"
                 />
-                 <StatCard 
-                    title="Total Revenue" 
-                    value="₹25.5L" 
-                    subtitle="Monthly platform earnings" 
-                    icon={<RupeeIcon />} 
+                <StatCard
+                    title="Total Revenue"
+                    value="₹25.5L"
+                    subtitle="Monthly platform earnings"
+                    icon={<RupeeIcon />}
                     colorClass="bg-stone-primary text-white"
                 />
             </div>
@@ -114,7 +114,7 @@ const AdminDashboardPage: React.FC = () => {
                             </div>
                             <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
                                 <p className="text-[10px] text-stone-accent font-black uppercase mb-1">Top Revenue Driver</p>
-                                <p className="text-sm font-bold">Kishangarh Verification Cluster</p>
+                                <p className="text-sm font-bold">Pan India Verification Cluster</p>
                             </div>
                         </div>
                     </div>
@@ -123,7 +123,7 @@ const AdminDashboardPage: React.FC = () => {
                         <h3 className="font-bold mb-4">Inspection Experts (Pool: 42)</h3>
                         <div className="space-y-4">
                             {[
-                                { name: "Rajesh K.", loc: "Kishangarh", active: 4 },
+                                { name: "Rajesh K.", loc: "Pan India", active: 4 },
                                 { name: "Vikram S.", loc: "Makrana", active: 2 },
                                 { name: "Anil P.", loc: "Udaipur", active: 1 },
                             ].map((exp, i) => (

@@ -59,8 +59,8 @@ const AIConcierge: React.FC<AIConciergeProps> = ({ isOpen, onClose }) => {
                 content: `📊 **Current Market Prices (Feb 2026)**\n\n**Italian Marble:**\n• Statuario: ₹800-1,200/sq ft\n• Carrara: ₹400-600/sq ft\n• Calacatta: ₹1,500-2,500/sq ft\n\n**Indian Marble:**\n• Makrana White: ₹150-300/sq ft\n• Rajnagar Pink: ₹80-150/sq ft\n• Ambaji White: ₹100-200/sq ft\n\n**Granite:**\n• Black Galaxy: ₹200-400/sq ft\n• Kashmir White: ₹250-450/sq ft\n\n*Prices vary by thickness, finish, and lot size.*`,
                 sources: ['IndiaMART', 'Stone Federation India', 'KPMG Stone Report 2025']
             },
-            'kishangarh': {
-                content: `🏭 **Kishangarh Stone Hub**\n\nKishangarh (Rajasthan) is Asia's largest marble hub:\n\n• 4,000+ marble processing units\n• Handles 90% of India's marble trade\n• Key stones: Makrana, Wonder White, Bruno\n\n**Current Trends:**\n• Bruno marble demand ↑ 25% this year\n• Italian imports dropped 15% due to shipping costs\n• New Turkish varieties gaining popularity\n\n**Best time to visit:** Oct-Feb (post monsoon)`,
+            'north india': {
+                content: `🏭 **North India Stone Hub**\n\nThe Northern belt is Asia's largest marble hub:\n\n• 4,000+ marble processing units\n• Handles 90% of India's marble trade\n• Key stones: Makrana, Wonder White, Bruno\n\n**Current Trends:**\n• Bruno marble demand ↑ 25% this year\n• Italian imports dropped 15% due to shipping costs\n• New Turkish varieties gaining popularity\n\n**Best time to visit:** Oct-Feb (post monsoon)`,
                 sources: ['Rajasthan Stone Development Corporation', 'Economic Times']
             },
             'quality': {
@@ -77,8 +77,8 @@ const AIConcierge: React.FC<AIConciergeProps> = ({ isOpen, onClose }) => {
         const lowerInput = input.toLowerCase();
         if (lowerInput.includes('price') || lowerInput.includes('rate') || lowerInput.includes('cost')) {
             response = responses['price'];
-        } else if (lowerInput.includes('kishangarh') || lowerInput.includes('rajasthan')) {
-            response = responses['kishangarh'];
+        } else if (lowerInput.includes('kishangarh') || lowerInput.includes('rajasthan') || lowerInput.includes('north india')) {
+            response = responses['north india'];
         } else if (lowerInput.includes('quality') || lowerInput.includes('grade')) {
             response = responses['quality'];
         }
@@ -120,8 +120,8 @@ const AIConcierge: React.FC<AIConciergeProps> = ({ isOpen, onClose }) => {
                 {messages.map(msg => (
                     <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                         <div className={`max-w-[85%] p-4 rounded-2xl ${msg.role === 'user'
-                                ? 'bg-stone-primary text-white rounded-br-md'
-                                : 'bg-white text-stone-primary rounded-bl-md shadow-sm'
+                            ? 'bg-stone-primary text-white rounded-br-md'
+                            : 'bg-white text-stone-primary rounded-bl-md shadow-sm'
                             }`}>
                             <p className="text-sm whitespace-pre-line">{msg.content}</p>
                             {msg.sources && (
@@ -153,7 +153,7 @@ const AIConcierge: React.FC<AIConciergeProps> = ({ isOpen, onClose }) => {
 
             {/* Quick Actions */}
             <div className="px-4 py-2 flex gap-2 overflow-x-auto bg-white border-t border-stone-accent/10">
-                {['Market prices', 'Kishangarh trends', 'Quality grades'].map(q => (
+                {['Market prices', 'North India trends', 'Quality grades'].map(q => (
                     <button
                         key={q}
                         onClick={() => setInput(q)}

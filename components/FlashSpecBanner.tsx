@@ -59,7 +59,7 @@ const FlashSpecBanner: React.FC<FlashSpecBannerProps> = ({ products, onProductCl
 
     // Get 5 "Flash Spec" products (Gold verified with special pricing)
     const flashProducts = products.filter(p => p.hasInspectionReport).slice(0, 5);
-    const discountPercent = 18; // Kishangarh source-direct discount
+    const discountPercent = 18; // Source-direct discount
 
     if (!isActive) {
         return (
@@ -71,7 +71,7 @@ const FlashSpecBanner: React.FC<FlashSpecBannerProps> = ({ products, onProductCl
                         </div>
                         <div>
                             <p className="text-white font-black">⚡ FLASH SPEC — Next Window</p>
-                            <p className="text-slate-400 text-sm">Kishangarh source-direct prices</p>
+                            <p className="text-slate-400 text-sm">Source-direct prices</p>
                         </div>
                     </div>
                     <div className="flex gap-2">
@@ -111,7 +111,7 @@ const FlashSpecBanner: React.FC<FlashSpecBannerProps> = ({ products, onProductCl
                                     -{discountPercent}% OFF
                                 </span>
                             </div>
-                            <p className="text-white/80 text-sm">Kishangarh Source-Direct Prices • Gold Verified Only</p>
+                            <p className="text-white/80 text-sm">Source-Direct Prices • Gold Verified Only</p>
                         </div>
                     </div>
 
